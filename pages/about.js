@@ -1,14 +1,19 @@
-import React from 'react';
+import { getContentData } from '../lib/content';
 
-const About = () => {
+export default function About({ contentData }) {
   return (
     <div>
-      <h1>私について</h1>
-      <p>
-        こんにちは、私は[あなたの名前]です。[出身地や趣味、経歴などの簡単な自己紹介を追加してください。]
-      </p>
+      <h1>{contentData.title}</h1>
+      <div dangerouslySetInnerHTML={{ __html: contentData.contentHtml }} />
     </div>
   );
-};
+}
 
-export default About;
+export async function getStaticProps() {
+  const contentData = await getContentData('about');
+  return {
+    props: {
+      contentData,
+    },
+  };
+}
